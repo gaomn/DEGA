@@ -12,26 +12,33 @@ MPDA： 多无人机多任务协调分配系统
 
 提供安装该项目的步骤。以下是一个示例步骤：
 
-1. 克隆该仓库：
+1. 初始化环境：
+   ```bash
+   git init
+   git config --global user.name "gaomn"
+   git config --global user.email "gaom@mail.nankai.edu.cn"
+   ```
+   
+2. 克隆该仓库：
    ```bash
    git clone https://github.com/gaomn/MPDA_GA.git
    ```
-2. 进入项目目录：
+3. 进入项目目录：
    ```bash
    cd MPDA_GA
    ```
-3. 添加远程仓库：
+4. 添加远程仓库：
    ```bash
    git remote add origin https://github.com/gaomn/MPDA_GA.git
    ```
-4. 提交更改：
+5. 提交更改：
    ```bash
    git add.
    git commit -m 'Add some foo'
    ```
-5. 推送到远程仓库：
+6. 推送到远程仓库：
    ```bash
-   git push origin master
+   git push origin main
    ```
 
 
@@ -55,7 +62,4 @@ MPDA： 多无人机多任务协调分配系统
    ```
 5. 提交 Pull Request。
 
-## 许可证
-
-无。
 
