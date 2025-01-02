@@ -64,7 +64,7 @@ def main_loop(args):
         start_n = 0
         b_re_lst = b_lst
 
-    b_re_lst = ['S_3_10_1.51']
+    b_re_lst = ['S_5_40_3.95']
     print("使用测试案例:", b_re_lst)
     print(f'This process will run {len(b_re_lst)} benchmarks, start from {start_n}, end at {start_n + len(b_re_lst)}')
 
@@ -117,7 +117,7 @@ if __name__ == '__main__':
             self.sample_id = 'demo'
             self.benchmarkName = 'FireTest'
     '''
-    parser.add_argument('--num_runs', type=int, default=20)
+    parser.add_argument('--num_runs', type=int, default=1)
     parser.add_argument('--all_n', type=int, default=5)
     parser.add_argument('--this_n', type=int, default=1)
     parser.add_argument('--generations', type=int, default=100)

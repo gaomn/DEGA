@@ -9,15 +9,14 @@ import random
 import copy
 import numpy as np
 from deap import tools
-
+import os
 # 假设同级目录下有 utils.py，包含以下内容：
 #  - Individual类
 #  - evaluate函数
 #  - save_data_to_npy函数
 #  - 其它辅助方法
-from CACS.utils import Individual, evaluate, save_data_to_npy
-
-
+from CACS.utils import Individual, save_data_to_npy, save_scheme_data
+from CACS.utils import evaluate as tds_evaluate
 class CACS:
     """
     基于论文描述的合作蚁群系统（CACS）多目标算法。
@@ -137,7 +136,7 @@ class CACS:
             genome['task_alliance_list'].append({'task_id': t, 'alliance': alliance})
 
         ind = Individual(genome)
-        ind.fitness.values = evaluate(ind, self.ins)
+        ind.fitness.values = self.evaluate(ind)
         return ind
 
     def random_valid_alliance(self, task_id):
@@ -245,7 +244,7 @@ class CACS:
 
         ind = Individual(genome)
         # 评估
-        ind.fitness.values = evaluate(ind, self.ins)
+        ind.fitness.values = self.evaluate(ind)
         return ind
 
     def select_alliance_for_task(self, task_id, colony):
@@ -337,8 +336,8 @@ class CACS:
             self.mutation(child2, self.mutation_rate)
 
             # 评估
-            child1.fitness.values = evaluate(child1, self.ins)
-            child2.fitness.values = evaluate(child2, self.ins)
+            child1.fitness.values = self.evaluate(child1)
+            child2.fitness.values = self.evaluate(child2)
 
             new_solutions.extend([child1, child2])
 
@@ -393,6 +392,18 @@ class CACS:
                 if candidates:
                     alliance.append(random.choice(candidates))
             tlist[t_index]['alliance'] = alliance
+    
+    def evaluate(self, individual):
+        """
+        评估函数，这里直接调用 ins 的 evaluate 方法。
+        """
+        total_time, total_dist, scheme = tds_evaluate(individual, self.ins)
+        save_path = os.path.join(self.save_path, f"base_scheme")
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        
+        save_scheme_data(total_time, total_dist, scheme, save_path, f"{self.benchmarkName}")
+        return total_time, total_dist
 
     # ---------------------------------------------------------------------
     # 8. 全局费洛蒙更新

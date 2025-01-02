@@ -4,7 +4,8 @@
 # @Project :MPDA_ACO-main 
 # @File    :utils.py
 # @IDE     :PyCharm
-
+import os
+import json
 import numpy as np
 import copy
 
@@ -37,7 +38,7 @@ class Utils:
         formatted_min, formatted_max, formatted_mean, formatted_std = \
             info_dict['min'], info_dict['max'], info_dict['mean'], info_dict['std']
         # print()
-        p_str = (
+        p_str = (  
             f"Fitness in generation {gen}: "
             f"min: ({formatted_min[0]:.2e}, {formatted_min[1]:.2e}, {formatted_min[2]:.2e}); "
             f"max: ({formatted_max[0]:.2e}, {formatted_max[1]:.2e}, {formatted_max[2]:.2e}); "
@@ -78,3 +79,26 @@ class my_pop:
 
 # test_matrix = [[1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5]]
 # print(Utils.static_fitness(test_matrix, lambda x: x))
+
+def save_scheme_data(time_val, distance_val, robot_task_sequences, save_dir, filename_prefix="scheme"):
+    """
+    将仿真结果(时间、距离、hv以及各机器人分配的任务序列)存入指定文件夹。
+    使用 JSON Lines 格式，每行一个 JSON 对象，便于追加。
+    """
+    # 构建最终要保存的数据结构
+    scheme_data = {
+        "time": time_val,
+        "distance": distance_val,
+        "scheme": [
+            {"robot": int(r), "task": [int(t) for t in tasks]} for r, tasks in enumerate(robot_task_sequences)
+        ]
+    }
+
+    # 确保目录存在
+    os.makedirs(save_dir, exist_ok=True)
+    # 文件名可根据需要调整，使用 JSON Lines 格式
+    save_path = os.path.join(save_dir, f"{filename_prefix}.jsonl")
+
+    with open(save_path, 'a', encoding='utf-8') as f:
+        json_line = json.dumps(scheme_data, ensure_ascii=False)
+        f.write(json_line + '\n')  # 追加一行

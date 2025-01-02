@@ -7,6 +7,7 @@ from mpdaDecodeMethod.mpdaDecoderActSeq import ActionSeq,ActionTuple,EventType,M
 import numpy as np
 from enum import Enum
 from collections import namedtuple
+import json
 
 RobTaskPair = namedtuple('RobTaskPair',['robID','taskID'])
 import math
@@ -99,13 +100,23 @@ class MPDADecoder(object):
 
     # TODO: read the decoding process
     def decode(self, x):
+        # print(x)
+        # print('start decode')
+        # for i, l in enumerate(x):
+        #     print(f'Robot {i}: {l}')    
         self.encode = x  # 将任务顺序赋值给encode
         self._actSeq = ActionSeq()  # 初始化动作序列，主要是建立一个动作解码器
         self.initStates()  # 初始化状态，主要是建立了robot和task的列表
         validStateBoolean = self.decodeProcessor()  # 开始解码，返回解码标志
         if degBoolean:  # 是否写入判断
             self._degFile.write(str(self.cmpltLst))   # 写入判断信息
-
+        PovertyLoss, SpendTime, RouteLen = self.get_3fitness()  # 计算贫困损失，时间和路程长度
+        save_dir = 'run'
+        os.makedirs(save_dir, exist_ok=True)
+        scheme = self._actSeq.convert2MultiPerm(self._robNum)
+        # self._insName = ".//staticMpdaBenchmarkSet//S_5_40_3.95.txt"
+        benchmark_name = os.path.basename(self._insName).replace('.txt', '')
+        save_scheme_data(SpendTime, RouteLen, scheme, save_dir, benchmark_name)
         return validStateBoolean, self._actSeq  # 返回解码结果和动作序列
 
 
@@ -144,9 +155,11 @@ class MPDADecoder(object):
 
         # self.decodeTime = 0
         # self.validStateBool = True
+    
     def decodeProcessor(self):
         self.RouteLen = 0
         self.PovertyLoss = 0
+        robot_task_sequence = [[] for _ in range(self._robNum)]
         while not self.allTaskCmplt():  # 开始解码
 
             cal_type, actionID = self.findActionID()                             # 找到最新事件：cal_type,任务到达或任务完成  actionID：出发动作的机器人id
@@ -435,3 +448,27 @@ if __name__ == '__main__':
     actSeqDecoder.drawActionSeqGantt()
     actSeqDecoder.drawTaskScatter()
     actSeqDecoder.drawTaskDependence()
+
+
+def save_scheme_data(time_val, distance_val, robot_task_sequences, save_dir, filename_prefix="scheme"):
+    """
+    将仿真结果(时间、距离、hv以及各机器人分配的任务序列)存入指定文件夹。
+    使用 JSON Lines 格式，每行一个 JSON 对象，便于追加。
+    """
+    # 构建最终要保存的数据结构
+    scheme_data = {
+        "time": time_val,
+        "distance": distance_val,
+        "scheme": [
+            {"robot": int(r), "task": [int(t) for t in tasks]} for r, tasks in enumerate(robot_task_sequences)
+        ]
+    }
+
+    # 确保目录存在
+    os.makedirs(save_dir, exist_ok=True)
+    # 文件名可根据需要调整，使用 JSON Lines 格式
+    save_path = os.path.join(save_dir, f"{filename_prefix}.jsonl")
+
+    with open(save_path, 'a', encoding='utf-8') as f:
+        json_line = json.dumps(scheme_data, ensure_ascii=False)
+        f.write(json_line + '\n')  # 追加一行

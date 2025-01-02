@@ -7,7 +7,7 @@
 
 import heapq
 import os
-
+import json
 import numpy as np
 from deap import base
 from deap import creator
@@ -70,6 +70,7 @@ def evaluate(individual, ins):
     #    由于无先序约束，这里只是将同一个 task 放进所有参加该 task 的机器人队列里
     #    这样后续事件驱动中，每个机器人按先后顺序执行自己的任务队列。
     robot_task_sequences = [[] for _ in range(robot_num)]
+    real_robot_task_alliance_list = [[] for _ in range(robot_num)]
     
     # 为避免同一个机器人在“理论并行”时出现冲突，这里默认按照 task_alliance_list 的顺序依次加入
     # 如果确有并行需求，事件驱动逻辑会自动处理是否需要等待。
@@ -78,7 +79,8 @@ def evaluate(individual, ins):
         alliance = item['alliance']  # 参与该任务的机器人列表
         for r in alliance:
             robot_task_sequences[r].append(t_id)
-    
+            real_robot_task_alliance_list[r].append(t_id)
+    # print(real_robot_task_alliance_list)
     # ======== 6. 初始化仿真变量 ========
     # 任务状态: 当前火势
     task_status = task_initial_states.copy()
@@ -222,7 +224,7 @@ def evaluate(individual, ins):
         total_distance = float('inf')
 
     # 返回两个目标: 完成时间 与 移动距离
-    return total_time, total_distance
+    return total_time, total_distance, robot_task_sequences
 
 
 def save_data_to_npy(datas, save_path, name, sample_id, ifprint=False):
@@ -236,3 +238,28 @@ def save_data_to_npy(datas, save_path, name, sample_id, ifprint=False):
         print(f"Benchmark: {name} | Min Fitness: ("
               f"time: {min([ind.fitness.values[0] for ind in datas]):.2E}, "
               f"distance: {min([ind.fitness.values[1] for ind in datas]):.2E})\n")
+              
+
+
+def save_scheme_data(time_val, distance_val, robot_task_sequences, save_dir, filename_prefix="scheme"):
+    """
+    将仿真结果(时间、距离、hv以及各机器人分配的任务序列)存入指定文件夹。
+    使用 JSON Lines 格式，每行一个 JSON 对象，便于追加。
+    """
+    # 构建最终要保存的数据结构
+    scheme_data = {
+        "time": time_val,
+        "distance": distance_val,
+        "scheme": [
+            {"robot": int(r), "task": [int(t) for t in tasks]} for r, tasks in enumerate(robot_task_sequences)
+        ]
+    }
+
+    # 确保目录存在
+    os.makedirs(save_dir, exist_ok=True)
+    # 文件名可根据需要调整，使用 JSON Lines 格式
+    save_path = os.path.join(save_dir, f"{filename_prefix}.jsonl")
+
+    with open(save_path, 'a', encoding='utf-8') as f:
+        json_line = json.dumps(scheme_data, ensure_ascii=False)
+        f.write(json_line + '\n')  # 追加一行

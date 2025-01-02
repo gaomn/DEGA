@@ -7,6 +7,7 @@ import copy
 from tqdm import tqdm
 import heapq
 import os
+import json
 
 # 定义GA类
 class MSGA:
@@ -161,6 +162,7 @@ class MSGA:
 
     def _evaluate(self, individual):
         robot_task_sequences = [[] for _ in range(self.robot_num)]
+        real_robot_task_sequences = [[] for _ in range(self.robot_num)]
         for r in range(self.robot_num):
             tasks_assigned = np.where(individual[r, 1:] == 1)[0]
             # 按任务增长速率从高到低排序（可根据需要调整）
@@ -202,6 +204,7 @@ class MSGA:
                 heapq.heappush(event_queue, (arrival_time, 'arrive', r, next_task))
                 robots_state[r]['time'] = arrival_time
                 robots_state[r]['task'] = next_task
+                real_robot_task_sequences[r].append(next_task)
 
         # 全局时间
         current_time = 0.0
@@ -281,6 +284,7 @@ class MSGA:
                         heapq.heappush(event_queue, (arrival_time, 'arrive', r, next_task))
                         robots_state[r]['time'] = arrival_time
                         robots_state[r]['task'] = next_task
+                        real_robot_task_sequences[r].append(next_task)
                     else:
                         # 没有任务了
                         robots_state[r]['task'] = -1
@@ -305,9 +309,9 @@ class MSGA:
             if task_completion_time[task_i] > task_completion_time[task_j]:
                 priority_ok = False
                 break
-        if not priority_ok:
-            total_time += 1e6  # 施加惩罚
-
+        save_dir = os.path.join(self.args.save_path, f"MSGA_{self.args.sample_id}_{self.benchmarkName}")
+        os.makedirs(save_dir, exist_ok=True)
+        save_scheme_data(total_time, total_distance, real_robot_task_sequences, save_dir, self.benchmarkName)
         return total_time, total_distance
 
     # 使用DEAP库实现MSGA算法
@@ -399,3 +403,26 @@ class MSGA:
         np.save(save_path, fitnesses)
         # print(f"Pareto front saved to {save_path}")
         # print(f"Benchmark: {self.benchmarkName} | Min Fitness: (time: {fitnesses[:, 0].min():.2E}, distance: {fitnesses[:, 1].min():.2E})\n")
+    
+def save_scheme_data(time_val, distance_val, robot_task_sequences, save_dir, filename_prefix="scheme"):
+    """
+    将仿真结果(时间、距离、hv以及各机器人分配的任务序列)存入指定文件夹。
+    使用 JSON Lines 格式，每行一个 JSON 对象，便于追加。
+    """
+    # 构建最终要保存的数据结构
+    scheme_data = {
+        "time": time_val,
+        "distance": distance_val,
+        "scheme": [
+            {"robot": int(r), "task": [int(t) for t in tasks]} for r, tasks in enumerate(robot_task_sequences)
+        ]
+    }
+
+    # 确保目录存在
+    os.makedirs(save_dir, exist_ok=True)
+    # 文件名可根据需要调整，使用 JSON Lines 格式
+    save_path = os.path.join(save_dir, f"{filename_prefix}.jsonl")
+
+    with open(save_path, 'a', encoding='utf-8') as f:
+        json_line = json.dumps(scheme_data, ensure_ascii=False)
+        f.write(json_line + '\n')  # 追加一行

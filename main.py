@@ -61,12 +61,12 @@ def main_loop(args):
         start_n = 0
         b_re_lst = b_lst
 
-    # b_re_lst = ['M_15_30_2.16']
-    b_re_lst = ['S_3_10_1.51']
+    # # b_re_lst = ['M_15_30_2.16']
+    b_re_lst = ['S_5_40_3.95']
     print("使用测试案例:", b_re_lst)
     print(f'This process will run {len(b_re_lst)} benchmarks, start from {start_n}, end at {start_n + len(b_re_lst)}')
 
-    path1 = f'./data_DEGA'
+    path1 = f'./data_run'
     if not os.path.exists(path1):
         os.makedirs(path1)
     path2 = path1 + f'/{date_str}'
@@ -81,7 +81,7 @@ def main_loop(args):
 
             args.benchmarkName = benchmarkName
             args.sample_id = id
-            args.rdSeed = int('123' + str(bn) + str(i))
+            args.rdSeed = int('1234' + str(bn) + str(i))
             args.save_path = path3
             args_n.append((benchmarkName, copy.deepcopy(args)))
             id += 1
@@ -100,9 +100,9 @@ def main_loop(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--num_runs', type=int, default=1)
-    parser.add_argument('--all_n', type=int, default=5)
+    parser.add_argument('--all_n', type=int, default=1)
     parser.add_argument('--this_n', type=int, default=1)
-    parser.add_argument('--generations', type=int, default=100)
+    parser.add_argument('--generations', type=int, default=500)
     parser.add_argument('--pop_size', type=int, default=100)
     parser.add_argument('--cross_rate', type=float, default=0.8)
     parser.add_argument('--mutate_rate', type=float, default=0.05)

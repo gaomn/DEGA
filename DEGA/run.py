@@ -182,7 +182,7 @@ class DEGA:
             """
         '''
         total_time, total_distance, scheme = evaluate(individual, self._ins)
-        save_path = os.path.join(self._save_path, f"{self.args.sample_id}_{self.benchmarkName}")
+        save_path = os.path.join(self._save_path, f"base_scheme")
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         
@@ -374,7 +374,7 @@ class DEGA:
                 print(f"Generation {gen}: {record}      -    loss_value, time, distance")
 
         top_individuals = tools.sortNondominated(pop, len(pop), first_front_only=True)[0]
-        self.plot_pareto_front(pop)
+        # self.plot_pareto_front(pop)
         return top_individuals
     
     def plot_pareto_front(self, pop):

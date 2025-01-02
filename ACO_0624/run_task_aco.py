@@ -109,7 +109,7 @@ def main_loop(all_n=1, this_n=1, date_str='data'):
         for file in files:
             if file.endswith(".txt"):
                 b_lst.append(file[:-4])
-    print(b_lst)
+    # print(b_lst)
     id = 0
     args_n = []
     # 将b_lst排列为0, -1, 1, -2, 2, -3 ,...形状
@@ -130,15 +130,19 @@ def main_loop(all_n=1, this_n=1, date_str='data'):
         else:
             b_re_lst = b_re_lst[start_n:start_n + part_n]
 
-        print(f'This process will run {len(b_re_lst)} benchmarks, start from {start_n}, end at {start_n + len(b_re_lst)}')
+        # print(f'This process will run {len(b_re_lst)} benchmarks, start from {start_n}, end at {start_n + len(b_re_lst)}')
+
+    print(b_re_lst)
+    b_re_lst = ["S_5_40_3.95"]
     for bn, benchmarkName in enumerate(b_re_lst):
-        for i in range(20):
+        for i in range(1):
             args_n.append((benchmarkName, id, int('123' + str(bn) + str(i)), insConfDir, date_str))
             id += 1
     print(args_n)
     # 查看电脑有几个cpu核心
     cpu_num = multiprocessing.cpu_count()
     cn = cpu_num - 2
+    cn = 1
     print(f'There are {cpu_num} cpu cores, we will use {cn} cores to run the task ACO')
     # 创建一个进程池
     with multiprocessing.Pool(processes=cn) as pool:
@@ -150,5 +154,5 @@ def main_loop(all_n=1, this_n=1, date_str='data'):
 
 if __name__ == '__main__':
     date_str = str(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
-    main_loop(8, 1, date_str)
+    main_loop(1, 1, date_str)
 

@@ -1,6 +1,6 @@
 ## 简介
 
-MPDA： 多无人机多任务协调分配系统
+DEGA： 使用双编码方法，优化多无人机多任务协调分配系统。
 
 ## 特性
 
@@ -33,7 +33,7 @@ MPDA： 多无人机多任务协调分配系统
    ```
 5. 提交更改：
    ```bash
-   git add.
+   git add .
    git commit -m 'Add some foo'
    ```
 6. 推送到远程仓库：
@@ -41,7 +41,32 @@ MPDA： 多无人机多任务协调分配系统
    git push origin main
    ```
 
+## 帮助
+1. 安装anaconda, vscode, git:
+   ```bash
+   anaconda: https://www.anaconda.com/products/individual
+   vscode: https://code.visualstudio.com/download
+   git: https://git-scm.com/downloads
+   ```
 
+2. terminal激活conda环境显示：
+   ```bash
+   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+   ```
+   注意：运行该命令后，需要重启powershell。
+
+
+3. conda相关：
+   ```bash
+   conda create -n mpda python=3.8
+   conda activate mpda
+   ```
+   
+4. pip安装：
+   ```bash
+   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+   ```
 
 ## 贡献
 
@@ -62,4 +87,7 @@ MPDA： 多无人机多任务协调分配系统
    ```
 5. 提交 Pull Request。
 
+## 许可证
+
+无。
 
