@@ -12,16 +12,9 @@ import numpy as np
 from deap import base
 from deap import creator
 
-# 假设您有2个目标需要最小化,如果已经被创建，则不需要再次创建
-if not creator.Fitness.weights:
-    creator.create("Fitness", base.Fitness, weights=(-1.0, -1.0))
-if not creator.Individual.fitness:
-    creator.create("Individual", list, fitness=creator.FitnessMin)
 
-
-# creator.create("Fitness", base.Fitness, weights=(-1.0, -1.0))
-# creator.create("Individual", np.ndarray, fitness=creator.Fitness)
-
+creator.create("Fitness", base.Fitness, weights=(-1.0, -1.0))  # Multi-objective minimization
+creator.create("Individual", list, fitness=creator.Fitness)  # Individual with Fitness
 
 class Individual:
     def __init__(self, genome, fitness=None):
@@ -29,7 +22,6 @@ class Individual:
             fitness = creator.Fitness()
         self.genome = genome
         self.fitness = fitness
-
 
 def evaluate(individual, ins):
     """

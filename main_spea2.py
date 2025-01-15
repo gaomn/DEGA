@@ -6,13 +6,6 @@ import os
 import time
 import numpy as np
 from utils.mpdaInstance import MPDAInstance
-from DEGA.run import DEGA
-from ILS.run import ILS
-from MSGA.run import MSGA
-from CACS.run import CACS
-from MSDE_SPEA2.run import MSDE_SPEA2
-
-
 
 def run_one(benchmarkName, args):
     time_start = time.time()
@@ -22,17 +15,23 @@ def run_one(benchmarkName, args):
     ins = MPDAInstance()
     ins.loadCfg(fileName=insFileName)
     if args.method == 'ILS':
+        from ILS.run import ILS
         optimiser = ILS(ins=ins, args=args)
     elif args.method == 'MSGA':
+        from MSGA.run import MSGA
         optimiser = MSGA(ins=ins, args=args)
     elif args.method == 'CACS':
+        from CACS.run import CACS
         optimiser = CACS(ins=ins, args=args)
     elif args.method == 'SPEA2':
+        from MSDE_SPEA2.run import MSDE_SPEA2
         optimiser = MSDE_SPEA2(ins=ins, args=args)
     else:
+        from DEGA.run import DEGA
         optimiser = DEGA(ins=ins, args=args)
     best_solution = optimiser.run()
-    print(f"Best solution found: {best_solution.fitness.values[1]} in {time.time() - time_start} seconds.")
+    print(f'========================================================================')
+    print(f"{benchmarkName}____{args.sample_id}, Best solution: ({best_solution.fitness.values[0]:.2f}, {best_solution.fitness.values[1]:.2f}) in {(time.time() - time_start):.2f} seconds.")
 
 def main_loop(args):
     all_n = args.all_n
@@ -70,7 +69,7 @@ def main_loop(args):
         start_n = 0
         b_re_lst = b_lst
 
-    b_re_lst = ['S_5_40_3.95']
+    # b_re_lst = ['S_5_40_3.95']
     print("使用测试案例:", b_re_lst)
     print(f'This process will run {len(b_re_lst)} benchmarks, start from {start_n}, end at {start_n + len(b_re_lst)}')
 
@@ -123,8 +122,8 @@ if __name__ == '__main__':
             self.sample_id = 'demo'
             self.benchmarkName = 'FireTest'
     '''
-    parser.add_argument('--num_runs', type=int, default=1)
-    parser.add_argument('--all_n', type=int, default=5)
+    parser.add_argument('--num_runs', type=int, default=20)
+    parser.add_argument('--all_n', type=int, default=3)
     parser.add_argument('--this_n', type=int, default=1)
     parser.add_argument('--generations', type=int, default=100)
     parser.add_argument('--pop_size', type=int, default=100)

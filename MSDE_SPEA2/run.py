@@ -88,7 +88,7 @@ class MSDE_SPEA2:
         # 获取机器人灭火能力(从 ins)
         robot_abilities = self._ins._robAbiLst   # [能力0, 能力1, ...]
         task_growth = self._ins._taskRateLst     # [火势增长率0, 火势增长率1, ...]
-        paths = genome['paths']                  # paths[r] = 机器人 r 的任务列表
+        paths = genome['paths']                   # paths[r] = 机器人 r 的任务列表
 
         # 首先统计: 每个任务分配给了哪些机器人
         task_to_robots = [[] for _ in range(self.task_num)]
@@ -211,7 +211,7 @@ class MSDE_SPEA2:
     ########################################################################
     # 交叉 & 变异 (示例)
     ########################################################################
-    def crossover(self, ind1, ind2):
+    def crossover_old(self, ind1, ind2):
         """
         演示：多路径随机交换部分任务
         交叉后需要 gene_fix 以确保资源约束
@@ -227,6 +227,46 @@ class MSDE_SPEA2:
             ind2.genome['paths'][r_idx] = new_b
 
         # 补充“缺失调度”之类的逻辑(若需要)
+        self.gene_fix(ind1.genome)
+        self.gene_fix(ind2.genome)
+
+    def crossover(self, ind1, ind2):
+        """
+        演示：多路径随机交换部分任务
+        交叉后需要 gene_fix 以确保资源约束
+        """
+        r_idx = random.randint(0, len(ind1.genome['paths']) - 1)
+        path_a = ind1.genome['paths'][r_idx]
+        path_b = ind2.genome['paths'][r_idx]
+
+        # 增加长度检查
+        if len(path_a) >= 2 and len(path_b) >= 2: # 只有当两个路径长度都大于等于2时才进行交叉
+            cut = random.randint(1, min(len(path_a), len(path_b)) - 1)
+            new_a = path_a[:cut] + path_b[cut:]
+            new_b = path_b[:cut] + path_a[cut:]
+            ind1.genome['paths'][r_idx] = new_a
+            ind2.genome['paths'][r_idx] = new_b
+        else:
+        # 新的追加逻辑
+            if len(path_a) > 0 and len(path_b) == 0:
+                ind2.genome['paths'][r_idx] = path_a[:] # 深拷贝，避免修改原路径
+            elif len(path_b) > 0 and len(path_a) == 0:
+                ind1.genome['paths'][r_idx] = path_b[:] # 深拷贝，避免修改原路径
+            elif len(path_a) == 1 and len(path_b) > 1:
+                task_to_add = path_a[0]
+                if task_to_add not in path_b:
+                    ind2.genome['paths'][r_idx].append(task_to_add)
+                    ind1.genome['paths'][r_idx] = path_b[:] # 深拷贝，避免修改原路径
+            elif len(path_b) == 1 and len(path_a) > 1:
+                task_to_add = path_b[0]
+                if task_to_add not in path_a:
+                    ind1.genome['paths'][r_idx].append(task_to_add)
+                    ind2.genome['paths'][r_idx] = path_a[:] # 深拷贝，避免修改原路径
+            elif len(path_a)==1 and len(path_b)==1:
+                if path_a[0]!=path_b[0]:
+                    ind2.genome['paths'][r_idx].append(path_a[0])
+                    ind1.genome['paths'][r_idx].append(path_b[0])
+                    
         self.gene_fix(ind1.genome)
         self.gene_fix(ind2.genome)
 
