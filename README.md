@@ -43,10 +43,12 @@ DEGA/
 ### 🚀 Quick Start
 
 #### Prerequisites
+
 - Python 3.8+
 - Required packages: numpy, matplotlib, pandas, deap, pymoo, tqdm
 
 #### Installation
+
 ```bash
 git clone https://github.com/gaomn/DEGA.git
 cd DEGA
@@ -54,6 +56,7 @@ pip install -r requirements.txt
 ```
 
 #### Basic Usage
+
 ```bash
 # Run with default DEGA algorithm on a small instance
 python main.py --method DEGA --instance S_5_4_0.39 --generations 100
@@ -70,6 +73,7 @@ python main.py --method MSGA --instance M_15_30_2.16 --generations 200
 ```
 
 #### Visualization
+
 ```bash
 # Generate path visualization plots
 python visualize_results.py
@@ -98,19 +102,23 @@ Instance naming format: `{Scale}_{UAVs}_{Tasks}_{Difficulty}.txt`
 ### 🎛️ Parameters
 
 #### Algorithm Selection
+
 - `--method`: Choose algorithm (`DEGA`, `ILS`, `MSGA`, `CACS`, `MSDE_SPEA2`)
 
-#### Instance Selection  
+#### Instance Selection
+
 - `--instance`: Specify single instance (e.g., `S_5_4_0.39`)
 - `--scale`: Choose scale (`small`, `medium`, `large`, `all`)
 
 #### Algorithm Parameters
+
 - `--generations`: Number of generations (default: 50)
 - `--pop_size`: Population size (default: 50)
 - `--cross_rate`: Crossover probability (default: 0.8)
 - `--mutate_rate`: Mutation probability (default: 0.05)
 
 #### Execution Control
+
 - `--num_runs`: Number of runs per instance (default: 1)
 - `--parallel`: Enable parallel processing
 - `--seed`: Random seed (default: 123)
@@ -148,8 +156,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### 📧 Contact
 
 - **Author**: Gao Mingnan
-- **Email**: gaom@mail.nankai.edu.cn
-- **GitHub**: https://github.com/gaomn/DEGA.git
+- **Email**: [gaom@mail.nankai.edu.cn](mailto:gaom@mail.nankai.edu.cn)
+- **GitHub**: [https://github.com/gaomn/DEGA.git](https://github.com/gaomn/DEGA.git)
 
 ---
 
@@ -192,10 +200,12 @@ DEGA/
 ### 🚀 快速开始
 
 #### 环境要求
+
 - Python 3.8+
 - 所需包: numpy, matplotlib, pandas, deap, pymoo, tqdm
 
 #### 安装
+
 ```bash
 git clone https://github.com/gaomn/DEGA.git
 cd DEGA
@@ -203,6 +213,7 @@ pip install -r requirements.txt
 ```
 
 #### 基本使用
+
 ```bash
 # 使用默认DEGA算法运行小实例
 python main.py --method DEGA --instance S_5_4_0.39 --generations 100
@@ -219,6 +230,7 @@ python main.py --method MSGA --instance M_15_30_2.16 --generations 200
 ```
 
 #### 可视化
+
 ```bash
 # 生成路径可视化图
 python visualize_results.py
@@ -247,19 +259,23 @@ python visualize_results.py
 ### 🎛️ 参数说明
 
 #### 算法选择
+
 - `--method`: 选择算法 (`DEGA`, `ILS`, `MSGA`, `CACS`, `MSDE_SPEA2`)
 
 #### 实例选择
+
 - `--instance`: 指定单个实例 (如 `S_5_4_0.39`)
 - `--scale`: 选择规模 (`small`, `medium`, `large`, `all`)
 
 #### 算法参数
+
 - `--generations`: 进化代数 (默认: 50)
 - `--pop_size`: 种群大小 (默认: 50)
 - `--cross_rate`: 交叉概率 (默认: 0.8)
 - `--mutate_rate`: 变异概率 (默认: 0.05)
 
 #### 执行控制
+
 - `--num_runs`: 每个实例运行次数 (默认: 1)
 - `--parallel`: 启用并行处理
 - `--seed`: 随机种子 (默认: 123)
@@ -297,8 +313,8 @@ python visualize_results.py
 ### 📧 联系方式
 
 - **作者**: 高明南
-- **邮箱**: gaom@mail.nankai.edu.cn
-- **GitHub**: https://github.com/gaomn/DEGA.git
+- **邮箱**: [gaom@mail.nankai.edu.cn](mailto:gaom@mail.nankai.edu.cn)
+- **GitHub**: [https://github.com/gaomn/DEGA.git](https://github.com/gaomn/DEGA.git)
 
 ---
 

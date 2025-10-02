@@ -198,15 +198,39 @@ def process_all_json_files(parent_folder, ins_folder, save_folder):
 
 
 if __name__ == "__main__":
-    # 示例路径（请替换为实际路径）
-    parent_folder = "./plot_data/DEGA"  # 包含 JSONL 文件的父文件夹
-    ins_folder = "./AllInstance"  # 包含 .txt ins 文件的文件夹
-    save_folder = "./fig"  # 保存绘图的目标文件夹
-
-    # name = "M_15_30_2.16"
-    # ins_file = f"./AllInstance/{name}.txt"
-    # json_file = f"./plot_data/{method}/{name}.jsonl"
-    # base_save_path = f"./fig"
-
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='MPDA结果可视化工具')
+    parser.add_argument('--results_dir', type=str, default='./results', 
+                       help='结果文件夹路径 (默认: ./results)')
+    parser.add_argument('--instance_dir', type=str, default='./AllInstance',
+                       help='实例文件夹路径 (默认: ./AllInstance)')
+    parser.add_argument('--output_dir', type=str, default='./figures',
+                       help='输出图片文件夹路径 (默认: ./figures)')
+    
+    args = parser.parse_args()
+    
+    # 检查结果文件夹是否存在
+    if not os.path.exists(args.results_dir):
+        print(f"错误: 结果文件夹 {args.results_dir} 不存在")
+        print("请先运行 main.py 生成结果文件")
+        exit(1)
+    
+    # 查找最新的结果文件夹
+    result_folders = [f for f in os.listdir(args.results_dir) 
+                     if os.path.isdir(os.path.join(args.results_dir, f))]
+    
+    if not result_folders:
+        print(f"错误: 在 {args.results_dir} 中没有找到结果文件夹")
+        exit(1)
+    
+    # 使用最新的结果文件夹
+    latest_folder = sorted(result_folders)[-1]
+    parent_folder = os.path.join(args.results_dir, latest_folder)
+    
+    print(f"使用结果文件夹: {parent_folder}")
+    print(f"实例文件夹: {args.instance_dir}")
+    print(f"输出文件夹: {args.output_dir}")
+    
     # 调用函数处理所有 JSON 文件
-    process_all_json_files(parent_folder, ins_folder, save_folder)
+    process_all_json_files(parent_folder, args.instance_dir, args.output_dir)
