@@ -4,20 +4,20 @@ English | [中文](./README.md)
 
 ---
 
-### 📖 Overview
+### Overview
 
-This repository contains the implementation of **DEGA (Dual-Encoding Genetic Algorithm)**, a novel multi-objective optimization algorithm designed for multi-UAV task assignment in firefighting scenarios. The algorithm employs a dual-encoding strategy that separates route planning and task allocation to efficiently solve complex multi-objective optimization problems.
+This repository contains the implementation of DEGA (Dual-Encoding Genetic Algorithm), a multi-objective optimization algorithm for multi-UAV multi-task scheduling in firefighting scenarios. The algorithm employs a dual-encoding strategy that decouples route planning encoding (R-encoding) and task allocation encoding (X-encoding) to effectively solve complex scheduling problems with multiple conflicting objectives.
 
-### 🎯 Key Features
+### Algorithm Features
 
-- **🚁 Multi-UAV Coordination**: Supports coordinated operations of multiple unmanned aerial vehicles
-- **🎯 Multi-Task Assignment**: Intelligent allocation and scheduling of multiple tasks
-- **🎯 Multi-Objective Optimization**: Simultaneously optimizes execution time and flight distance
-- **🧬 Dual-Encoding Strategy**: Separates route encoding (R) and allocation encoding (X)
-- **🔄 Multiple Algorithms**: Supports DEGA, ILS, MSGA, and other optimization algorithms
-- **📊 Visualization**: Comprehensive result visualization and analysis tools
+The algorithm addresses the multi-UAV task assignment problem in firefighting scenarios, simultaneously optimizing two objectives: task completion time and flight distance. The algorithm is based on a dual-encoding genetic algorithm framework, where:
 
-### 🏗️ Repository Structure
+- Route Encoding (R): Uses permutation encoding to represent task execution order
+- Allocation Encoding (X): Uses binary matrix encoding to represent UAV-task assignments
+- Dual-Encoding Strategy: Decouples route planning and task allocation to improve search efficiency
+- Multi-Objective Optimization: Evaluates and selects solutions based on Pareto dominance relations
+
+### Repository Structure
 
 ```text
 DEGA/
@@ -28,18 +28,18 @@ DEGA/
 ├── README_EN.md                      # This file (English)
 ├── A_Dual-Encoding-based_...pdf      # Research paper
 ├── AllInstance/                      # Test instance dataset
-│   ├── S_*.txt                      # Small-scale instances (≤30 tasks)
-│   ├── M_*.txt                      # Medium-scale instances (30-50 tasks)
-│   └── L_*.txt                      # Large-scale instances (>50 tasks)
-├── DEGA/                            # Dual-Encoding Genetic Algorithm
-├── ILS/                             # Iterated Local Search
-├── MSGA/                            # Multi-objective Genetic Algorithm
-├── CACS/                            # Cooperative Ant Colony System
-├── MSDE_SPEA2/                      # Multi-objective Differential Evolution
+│   ├── S_*.txt                      # Small-scale instances
+│   ├── M_*.txt                      # Medium-scale instances
+│   └── L_*.txt                      # Large-scale instances
+├── DEGA/                            # DEGA implementation
+├── ILS/                             # ILS implementation
+├── MSGA/                            # MSGA implementation
+├── CACS/                            # CACS implementation
+├── MSDE_SPEA2/                      # MSDE_SPEA2 implementation
 └── utils/                           # Utility modules
 ```
 
-### 🚀 Quick Start
+### Quick Start
 
 #### Prerequisites
 
@@ -78,27 +78,31 @@ python main.py --method MSGA --instance M_15_30_2.16
 python visualize_results.py
 ```
 
-### 📊 Algorithm Comparison
+### Comparison Algorithms
 
-| Algorithm | Type | Features | Use Case |
-|-----------|------|----------|----------|
-| **DEGA** | Genetic Algorithm | Dual-encoding, multi-objective | Main algorithm (recommended) |
-| **ILS** | Local Search | Fast convergence | Quick solutions |
-| **MSGA** | Genetic Algorithm | Traditional multi-objective GA | Baseline comparison |
-| **CACS** | Ant Colony | Cooperative mechanism | Research comparison |
-| **MSDE_SPEA2** | Differential Evolution | SPEA2 selection | High-quality solutions |
+This repository implements the comparison algorithms used in the paper to validate the performance of DEGA:
 
-### 📈 Test Instances
+| Algorithm | Full Name | Description |
+|-----------|-----------|-------------|
+| **DEGA** | Dual-Encoding Genetic Algorithm | The proposed dual-encoding genetic algorithm |
+| **ILS** | Iterated Local Search | Iterated local search algorithm |
+| **MSGA** | Multi-objective Genetic Algorithm | Multi-objective genetic algorithm |
+| **CACS** | Cooperative Ant Colony System | Cooperative ant colony system |
+| **MSDE_SPEA2** | Multi-objective Differential Evolution with SPEA2 | Multi-objective differential evolution with SPEA2 |
 
-The repository includes 50+ benchmark instances with different scales:
+**Note**: The official implementation of ACACO (Adaptive Cooperative Ant Colony Optimization) is provided by the original paper authors and is not included in this repository. For comparison experiments with ACACO, please refer to the original paper for the official code.
 
-- **S_**: Small-scale (≤30 tasks) - Quick testing and algorithm validation
-- **M_**: Medium-scale (30-50 tasks) - Standard testing scenarios  
-- **L_**: Large-scale (>50 tasks) - Performance stress testing
+### Test Instances
 
-Instance naming format: `{Scale}_{UAVs}_{Tasks}_{Difficulty}.txt`
+This repository contains over 50 test instances of different scales for algorithm performance evaluation:
 
-### 🎛️ Parameters
+- **S_**: Small-scale instances (tasks ≤ 30)
+- **M_**: Medium-scale instances (tasks 30-50)
+- **L_**: Large-scale instances (tasks > 50)
+
+Instance file naming format: `{Scale}_{UAVs}_{Tasks}_{Difficulty}.txt`
+
+### Parameters
 
 #### Algorithm Selection
 
@@ -122,7 +126,7 @@ Instance naming format: `{Scale}_{UAVs}_{Tasks}_{Difficulty}.txt`
 - `--parallel`: Enable parallel processing
 - `--seed`: Random seed (default: 123)
 
-### 📚 Citation
+### Citation
 
 If you use this code in your research, please cite our paper:
 
@@ -138,7 +142,7 @@ If you use this code in your research, please cite our paper:
 }
 ```
 
-### 🤝 Contributing
+### Contributing
 
 We welcome contributions! Please feel free to submit issues and pull requests.
 
@@ -148,11 +152,11 @@ We welcome contributions! Please feel free to submit issues and pull requests.
 4. Push to the branch: `git push origin feature/new-feature`
 5. Submit a pull request
 
-### 📄 License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### 📧 Contact
+### Contact
 
 - **Author**: Gao Meng (高猛)
 - **Email**: [gaom@mail.nankai.edu.cn](mailto:gaom@mail.nankai.edu.cn)
@@ -160,4 +164,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**⭐ If this project helps you, please give us a star!**
+If this project is helpful for your research, please consider giving it a star.
