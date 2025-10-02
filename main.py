@@ -145,14 +145,14 @@ def main():
                        help='选择实例规模')
     
     # 算法参数
-    parser.add_argument('--generations', type=int, default=50,
-                       help='进化代数 (默认: 50)')
-    parser.add_argument('--pop_size', type=int, default=50,
-                       help='种群大小 (默认: 50)')
-    parser.add_argument('--cross_rate', type=float, default=0.8,
-                       help='交叉概率 (默认: 0.8)')
-    parser.add_argument('--mutate_rate', type=float, default=0.05,
-                       help='变异概率 (默认: 0.05)')
+    parser.add_argument('--generations', type=int, default=200,
+                       help='进化代数 (默认: 200)')
+    parser.add_argument('--pop_size', type=int, default=100,
+                       help='种群大小 (默认: 100)')
+    parser.add_argument('--cross_rate', type=float, default=0.9,
+                       help='交叉概率 (默认: 0.9)')
+    parser.add_argument('--mutate_rate', type=float, default=0.1,
+                       help='变异概率 (默认: 0.1)')
     
     # 运行参数
     parser.add_argument('--num_runs', type=int, default=1,
