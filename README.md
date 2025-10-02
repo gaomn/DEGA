@@ -26,7 +26,7 @@ DEGA/
 ├── requirements.txt                  # Python依赖包
 ├── README.md                         # 本文件（中文）
 ├── README_EN.md                      # 英文文档
-├── A_Dual-Encoding-based_...pdf      # 研究论文
+├── DEGA.pdf                          # 研究论文（预览版）
 ├── AllInstance/                      # 测试实例数据集
 │   ├── S_*.txt                      # 小规模实例
 │   ├── M_*.txt                      # 中规模实例
@@ -127,6 +127,8 @@ python visualize_results.py
 - `--seed`: 随机种子 (默认: 123)
 
 ### 论文引用
+
+本仓库包含的DEGA.pdf为论文预览版，可能存在错误。正式发表版本请访问：[https://ieeexplore.ieee.org/abstract/document/11043008](https://ieeexplore.ieee.org/abstract/document/11043008)
 
 如果您在研究中使用了本代码，请引用我们的论文：
 

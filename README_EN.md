@@ -26,7 +26,7 @@ DEGA/
 ├── requirements.txt                  # Python dependencies
 ├── README.md                         # Chinese documentation
 ├── README_EN.md                      # This file (English)
-├── A_Dual-Encoding-based_...pdf      # Research paper
+├── DEGA.pdf                          # Research paper (preview version)
 ├── AllInstance/                      # Test instance dataset
 │   ├── S_*.txt                      # Small-scale instances
 │   ├── M_*.txt                      # Medium-scale instances
@@ -127,6 +127,8 @@ Instance file naming format: `{Scale}_{UAVs}_{Tasks}_{Difficulty}.txt`
 - `--seed`: Random seed (default: 123)
 
 ### Citation
+
+The DEGA.pdf included in this repository is a preview version and may contain errors. For the official published version, please visit: [https://ieeexplore.ieee.org/abstract/document/11043008](https://ieeexplore.ieee.org/abstract/document/11043008)
 
 If you use this code in your research, please cite our paper:
 
