@@ -20,8 +20,8 @@ class DEGA:
         self._gen = args.generations
         self._cross_rate = args.cross_rate
         self._mutate_rate = args.mutate_rate
-        self._pop_size = self.robot_num * self.task_num + int(0.1 * (self.task_num**2) * self.robot_num)
-        self._local_search_num = int(0.1 * (self.task_num**2) * self.robot_num)
+        self._pop_size = min(20, self.robot_num * self.task_num + int(0.1 * (self.task_num**2) * self.robot_num))  # 限制最大种群大小
+        self._local_search_num = min(5, int(0.1 * (self.task_num**2) * self.robot_num))  # 限制局部搜索次数
         self._best_solution = None
         self._eval_pop = None
         self._route_best = None

@@ -1,20 +1,23 @@
+#!/usr/bin/env python3
+"""
+MPDA结果可视化工具
+用于绘制多无人机任务分配的路径图和结果分析
+"""
+
 import os
 import json
 import numpy as np
 import matplotlib.pyplot as plt
 from utils.mpdaInstance import MPDAInstance
-from matplotlib.patches import ArrowStyle
 from matplotlib.legend_handler import HandlerLine2D
 
 class ArrowLineHandler(HandlerLine2D):
+    """自定义图例处理器，在路径线上添加箭头"""
     def create_artists(self, legend, orig_handle, xdescent, ydescent, width, height, fontsize, trans):
-        # 获取原始艺术家
         line, = super().create_artists(legend, orig_handle, xdescent, ydescent, width, height, fontsize, trans)
-        
-        # 创建箭头
         arrow = plt.arrow(xdescent + width*0.6, ydescent + height/2, width*0.3, 0,
-                         head_width=height*0.3, head_length=width*0.2, fc=line.get_color(), ec=line.get_color())
-        
+                         head_width=height*0.3, head_length=width*0.2, 
+                         fc=line.get_color(), ec=line.get_color())
         return [line, arrow]
 
 
