@@ -6,9 +6,8 @@ Multi-UAV Multi-Task Assignment (MPDA) System
 支持的算法:
 - DEGA: 双编码遗传算法 (主要算法)
 - ILS: 迭代局部搜索
-- MSGA: 多目标遗传算法
-- CACS: 协作蚁群系统 (需要参考原论文作者代码)
-- MSDE_SPEA2: 多目标差分进化算法
+- MSGA: 多策略遗传算法
+- CACS: 协作蚁群系统
 
 作者: 基于论文 "A Dual-Encoding-based Genetic Algorithm for Multi-Objective Multi-UAV Scheduling in Firefighting Scenarios"
 """
@@ -35,11 +34,7 @@ except ImportError:
     CACS_AVAILABLE = False
     print("注意: CACS算法不可用，请参考原论文作者的代码实现")
 
-try:
-    from MSDE_SPEA2.run import MSDE_SPEA2
-    MSDE_SPEA2_AVAILABLE = True
-except ImportError:
-    MSDE_SPEA2_AVAILABLE = False
+
 
 
 def get_available_methods():
@@ -47,8 +42,6 @@ def get_available_methods():
     methods = ['DEGA', 'ILS', 'MSGA']
     if CACS_AVAILABLE:
         methods.append('CACS')
-    if MSDE_SPEA2_AVAILABLE:
-        methods.append('MSDE_SPEA2')
     return methods
 
 
@@ -74,8 +67,6 @@ def run_single_instance(benchmark_name, args):
         optimizer = MSGA(ins=ins, args=args)
     elif args.method == 'CACS' and CACS_AVAILABLE:
         optimizer = CACS(ins=ins, args=args)
-    elif args.method == 'MSDE_SPEA2' and MSDE_SPEA2_AVAILABLE:
-        optimizer = MSDE_SPEA2(ins=ins, args=args)
     else:
         print(f"错误: 算法 {args.method} 不可用")
         return None

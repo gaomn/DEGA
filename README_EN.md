@@ -35,7 +35,6 @@ DEGA/
 ├── ILS/                             # ILS implementation
 ├── MSGA/                            # MSGA implementation
 ├── CACS/                            # CACS implementation
-├── MSDE_SPEA2/                      # MSDE_SPEA2 implementation
 └── utils/                           # Utility modules
 ```
 
@@ -84,13 +83,10 @@ This repository implements the comparison algorithms used in the paper to valida
 
 | Algorithm | Full Name | Description |
 |-----------|-----------|-------------|
-| **DEGA** | Dual-Encoding Genetic Algorithm | The proposed dual-encoding genetic algorithm |
+| **DEGA** | Dual-Encoding-based Genetic Algorithm | The proposed dual-encoding genetic algorithm |
 | **ILS** | Iterated Local Search | Iterated local search algorithm |
-| **MSGA** | Multi-objective Genetic Algorithm | Multi-objective genetic algorithm |
+| **MSGA** | Multi-Strategy Genetic Algorithm | Multi-strategy genetic algorithm |
 | **CACS** | Cooperative Ant Colony System | Cooperative ant colony system |
-| **MSDE_SPEA2** | Multi-objective Differential Evolution with SPEA2 | Multi-objective differential evolution with SPEA2 |
-
-**Note**: The official implementation of ACACO (Adaptive Cooperative Ant Colony Optimization) is provided by the original paper authors and is not included in this repository. For comparison experiments with ACACO, please refer to the original paper for the official code.
 
 ### Test Instances
 
@@ -106,7 +102,7 @@ Instance file naming format: `{Scale}_{UAVs}_{Tasks}_{Difficulty}.txt`
 
 #### Algorithm Selection
 
-- `--method`: Choose algorithm (`DEGA`, `ILS`, `MSGA`, `CACS`, `MSDE_SPEA2`)
+- `--method`: Choose algorithm (`DEGA`, `ILS`, `MSGA`, `CACS`)
 
 #### Instance Selection
 

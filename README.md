@@ -33,9 +33,8 @@ DEGA/
 │   └── L_*.txt                      # 大规模实例
 ├── DEGA/                            # 双编码遗传算法实现
 ├── ILS/                             # 迭代局部搜索算法实现
-├── MSGA/                            # 多目标遗传算法实现
+├── MSGA/                            # 多策略遗传算法实现
 ├── CACS/                            # 协作蚁群算法实现
-├── MSDE_SPEA2/                      # 多目标差分进化算法实现
 └── utils/                           # 工具模块
 ```
 
@@ -84,13 +83,10 @@ python visualize_results.py
 
 | 算法 | 全称 | 说明 |
 |------|------|------|
-| **DEGA** | Dual-Encoding Genetic Algorithm | 本文提出的双编码遗传算法 |
+| **DEGA** | Dual-Encoding-based Genetic Algorithm | 本文提出的双编码遗传算法 |
 | **ILS** | Iterated Local Search | 迭代局部搜索算法 |
-| **MSGA** | Multi-objective Genetic Algorithm | 多目标遗传算法 |
+| **MSGA** | Multi-Strategy Genetic Algorithm | 多策略遗传算法 |
 | **CACS** | Cooperative Ant Colony System | 协作蚁群系统 |
-| **MSDE_SPEA2** | Multi-objective Differential Evolution with SPEA2 | 基于SPEA2的多目标差分进化算法 |
-
-**注意**: ACACO（Adaptive Cooperative Ant Colony Optimization）算法的官方实现由原论文作者提供，本仓库未包含该算法的实现代码。如需使用ACACO算法进行对比实验，请参考其原始论文获取官方代码。
 
 ### 测试实例
 
@@ -106,7 +102,7 @@ python visualize_results.py
 
 #### 算法选择
 
-- `--method`: 选择算法 (`DEGA`, `ILS`, `MSGA`, `CACS`, `MSDE_SPEA2`)
+- `--method`: 选择算法 (`DEGA`, `ILS`, `MSGA`, `CACS`)
 
 #### 实例选择
 
